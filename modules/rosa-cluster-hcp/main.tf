@@ -123,7 +123,8 @@ resource "rhcs_cluster_rosa_hcp" "rosa_hcp_cluster" {
       current_version,
       domain,
       ocm_properties,
-      state
+      state,
+      properties
     ]
   }
 }
