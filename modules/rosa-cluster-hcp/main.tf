@@ -22,7 +22,7 @@ locals {
     operator_role_prefix = var.operator_role_prefix,
     oidc_config_id       = var.oidc_config_id
   }
-  aws_account_arn = var.aws_account_arn == null ? data.aws_caller_identity.current[0].arn : var.aws_account_arn
+  aws_account_arn   = var.aws_account_arn == null ? data.aws_caller_identity.current[0].arn : var.aws_account_arn
   create_admin_user = var.create_admin_user
   admin_credentials = var.admin_credentials_username == null && var.admin_credentials_password == null ? (
     null
@@ -117,6 +117,14 @@ resource "rhcs_cluster_rosa_hcp" "rosa_hcp_cluster" {
       ) == false
       error_message = "Autoscaler parameters cannot be modified while the cluster autoscaler is disabled. Please ensure that cluster_autoscaler_enabled variable is set to true"
     }
+    ignore_changes = [
+      api_url,
+      console_url,
+      current_version,
+      domain,
+      ocm_properties,
+      state
+    ]
   }
 }
 
@@ -134,7 +142,7 @@ resource "rhcs_hcp_cluster_autoscaler" "cluster_autoscaler" {
 }
 
 resource "rhcs_hcp_default_ingress" "default_ingress" {
-  cluster          = rhcs_cluster_rosa_hcp.rosa_hcp_cluster.id
+  cluster = rhcs_cluster_rosa_hcp.rosa_hcp_cluster.id
   listening_method = var.default_ingress_listening_method != "" ? (
     var.default_ingress_listening_method) : (
     var.private ? "internal" : "external"
