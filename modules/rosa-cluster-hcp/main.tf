@@ -118,13 +118,13 @@ resource "rhcs_cluster_rosa_hcp" "rosa_hcp_cluster" {
       error_message = "Autoscaler parameters cannot be modified while the cluster autoscaler is disabled. Please ensure that cluster_autoscaler_enabled variable is set to true"
     }
     ignore_changes = [
-      # api_url,
-      # console_url,
-      # current_version,
-      # domain,
-      # ocm_properties,
-      # state,
-      # properties
+      api_url,
+      console_url,
+      current_version,
+      domain,
+      ocm_properties,
+      state,
+      properties
     ]
   }
 }
